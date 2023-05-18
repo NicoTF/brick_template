@@ -1,9 +1,9 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:reflection_factory/reflection_factory.dart';
 
 import 'brick_template_base.dart';
 
 class MapTemplate extends Template<Map<String, dynamic>> {
+  @override
   String template;
 
   MapTemplate({
