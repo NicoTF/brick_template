@@ -100,11 +100,8 @@ abstract class Template<T> {
 class TemplateBuilder<T> {
   final Template<T> mainTemplate;
   final Set<Template> childrenTemplates;
-  late T mainDataSource;
 
-  TemplateBuilder({required this.mainTemplate, this.childrenTemplates = const {}, T? mainDataSource}) {
-    if (mainDataSource != null) this.mainDataSource = mainDataSource;
-  }
+  TemplateBuilder({required this.mainTemplate, this.childrenTemplates = const {}});
 
   Template? teplateFor<E>() {
     try {
@@ -114,8 +111,8 @@ class TemplateBuilder<T> {
     }
   }
 
-  String generate() {
-    return mainTemplate._generateBrickTree(mainDataSource, this).toText();
+  String generate(T dataSource) {
+    return mainTemplate._generateBrickTree(dataSource, this).toText();
   }
 }
 

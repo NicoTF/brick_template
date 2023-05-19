@@ -38,11 +38,9 @@ Hello {\$name}! You are {\$ age} years old.
     ),
   );
 
-  builder.mainDataSource = p.toMap();
-  print(builder.generate());
+  print(builder.generate(p.toMap()));
 
-  builder.mainDataSource = p2.toMap();
-  print(builder.generate());
+  print(builder.generate(p2.toMap()));
 
   final reflectionBuilder = TemplateBuilder(
     mainTemplate: ReflectionTemplate<Person>(
@@ -54,9 +52,7 @@ You live @ {\$address}.
     ),
   );
 
-  reflectionBuilder.mainDataSource = p;
-  print(reflectionBuilder.generate().replaceAll('\n', '_'));
+  print(reflectionBuilder.generate(p).replaceAll('\n', '_'));
 
-  reflectionBuilder.mainDataSource = p2;
-  print(reflectionBuilder.generate().replaceAll('\n', '_'));
+  print(reflectionBuilder.generate(p2).replaceAll('\n', '_'));
 }
