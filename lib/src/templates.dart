@@ -45,11 +45,11 @@ class ReflectionTemplate<T> extends Template<T> {
   }
 }
 
-class ProxyVariablesTemplate extends Template {
+class ProxyVariablesTemplate<T> extends Template<T> {
   @override
   String template;
 
-  final Template child;
+  final Template<T> child;
 
   Map<String, dynamic> variables;
 
