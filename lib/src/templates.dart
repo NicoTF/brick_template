@@ -45,24 +45,28 @@ class ReflectionTemplate<T> extends Template<T> {
   }
 }
 
-class ProxyVariablesTemplate<T> extends Template<T> {
+class ProxdData<T> {
+  final T mainData;
+  final Map<String, dynamic> variables;
+
+  ProxdData(this.mainData, this.variables);
+}
+
+class ProxyVariablesTemplate<T> extends Template<ProxdData<T>> {
   @override
   String template;
 
   final Template<T> child;
 
-  Map<String, dynamic> variables;
-
   ProxyVariablesTemplate({
     required this.child,
-    this.variables = const {},
   }) : template = child.template;
 
   @override
   getVariable(dataSource, String variableName) {
-    if (variables.containsKey(variableName)) {
-      return variables[variableName];
+    if (dataSource.variables.containsKey(variableName)) {
+      return dataSource.variables[variableName];
     }
-    return child.getVariable(dataSource, variableName);
+    return child.getVariable(dataSource.mainData, variableName);
   }
 }
