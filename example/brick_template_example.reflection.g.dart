@@ -116,13 +116,23 @@ class Person$reflection extends ClassReflection<Person> with __ReflectionMixin {
             this,
             Person,
             '',
-            () => ({required String name, required int age, String? address}) =>
-                Person(name: name, age: age, address: address),
+            () => (
+                    {required String name,
+                    required int age,
+                    String? address,
+                    List<Friend>? friends}) =>
+                Person(
+                    name: name, age: age, address: address, friends: friends),
             null,
             null,
             const <String, __PR>{
               'address': __PR(__TR.tString, 'address', true, false),
               'age': __PR(__TR.tInt, 'age', false, true),
+              'friends': __PR(
+                  __TR<List<Friend>>(List, <__TR>[__TR<Friend>(Friend)]),
+                  'friends',
+                  true,
+                  false),
               'name': __PR(__TR.tString, 'name', false, true)
             },
             null);
@@ -150,6 +160,7 @@ class Person$reflection extends ClassReflection<Person> with __ReflectionMixin {
   static const List<String> _fieldsNames = const <String>[
     'address',
     'age',
+    'friends',
     'name'
   ];
 
@@ -243,6 +254,19 @@ class Person$reflection extends ClassReflection<Person> with __ReflectionMixin {
           obj,
           false,
           true,
+        );
+      case 'friends':
+        return FieldReflection<Person, List<Friend>?>(
+          this,
+          Person,
+          __TR<List<Friend>>(List, <__TR>[__TR<Friend>(Friend)]),
+          'friends',
+          true,
+          (o) => () => o!.friends,
+          (o) => (v) => o!.friends = v,
+          obj,
+          false,
+          false,
         );
       default:
         return null;

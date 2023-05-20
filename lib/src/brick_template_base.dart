@@ -34,25 +34,25 @@ abstract class Template<T> {
 
     // Find all dependecies in the template
     final dependencies = dependencyPattern.allMatches(template).toList();
-    // Find all closing conditions in the template
+    // Find all closing dependencies in the template
     final dependencyCloseBlocks = dependencyClosePattern.allMatches(template).toList();
 
     for (final i = dependencies.reversed.iterator; i.moveNext();) {
-      final condition = i.current;
-      RegExpMatch closeCondition;
+      final dependency = i.current;
+      RegExpMatch dependencyClose;
       try {
-        closeCondition = dependencyCloseBlocks.firstWhere((e) => e.start > condition.end);
+        dependencyClose = dependencyCloseBlocks.firstWhere((e) => e.start > dependency.end);
       } catch (_) {
-        throw Exception(); // TODO
+        throw Exception(); // TODO ad hoc exception for missing dependency closure
       }
-      dependencyCloseBlocks.remove(closeCondition);
+      dependencyCloseBlocks.remove(dependencyClose);
       bricks.add(
         _DependencyBrick(
-          content: template.substring(condition.start, closeCondition.end),
-          startingIndex: condition.start,
-          extent: closeCondition.end - condition.start,
-          variableName: condition.group(1)!,
-          variable: getVariable(dataSource, condition.group(1)!.trim()),
+          content: template.substring(dependency.start, dependencyClose.end),
+          startingIndex: dependency.start,
+          extent: dependencyClose.end - dependency.start,
+          variableName: dependency.group(1)!,
+          variable: getVariable(dataSource, dependency.group(1)!.trim()),
         ),
       );
     }
@@ -212,10 +212,36 @@ class _DependencyBrick extends _BaseBrick {
 
   @override
   String toText() {
-    final start = RegExp(r'}[\s\n]*').firstMatch(content)!.end;
-    final end = RegExp(r'[\s\n]*{\?}').allMatches(content).last.start;
     if (variable != null) {
-      return super.toText().substring(start, end);
+      final start = RegExp(r'}[\s\n]*').firstMatch(content)!.end;
+      final endOffset = content.length - RegExp(r'[\s\n]*{\?}').allMatches(content).last.start;
+
+      if (variable is Iterable && children.any((element) => element is _VariableBrick && element.variableName == variableName)) {
+        final sb = StringBuffer();
+        for (final item in variable) {
+          children = children.map((brick) {
+            if (brick is _VariableBrick && brick.variableName == variableName) {
+              return _VariableBrick(
+                brick.content,
+                brick.variableName,
+                brick.startingIndex,
+                brick.extent,
+                brick.builder,
+                item,
+              );
+            }
+            return brick;
+          }).toList();
+          final text = super.toText();
+          sb.write(text.substring(start, text.length - endOffset));
+          sb.write('\n');
+        }
+
+        return sb.toString();
+      }
+
+      final text = super.toText();
+      return text.substring(start, text.length - endOffset);
     }
     return '';
   }
@@ -230,18 +256,5 @@ class InvalidVariableNameException implements Exception {
   @override
   String toString() {
     return 'Invalid variable "$variableName" on line $line';
-  }
-}
-
-class InvalidConditionException implements Exception {
-  final String condition;
-  final int line;
-  final String reason;
-
-  InvalidConditionException(this.condition, this.line, this.reason);
-
-  @override
-  String toString() {
-    return 'Invalid condition "$condition" on line $line: $reason';
   }
 }
