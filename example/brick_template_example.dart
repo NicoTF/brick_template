@@ -25,6 +25,7 @@ class Person {
       };
 }
 
+@EnableReflection()
 class Friend {
   final String name;
   final int age;
@@ -58,8 +59,8 @@ Hello {\$name}! You are {\$ age} years old.
   print(builder.generate(p2.toMap()));
 
   final reflectionBuilder = TemplateBuilder(
-    mainTemplate: ReflectionTemplate<Person>(
-      template: '''
+      mainTemplate: ReflectionTemplate<Person>(
+        template: '''
 Hello {\$name}! You are {\$ age} years old.{?address}
 You live @ {\$address}.
 {?}
@@ -70,8 +71,14 @@ Your friends are:
 {?}
 {?}
 ''',
-    ),
-  );
+      ),
+      childrenTemplates: {
+        Friend: ReflectionTemplate<Friend>(
+          template: '''
+{\$name} is {\$age} years old.
+''',
+        ),
+      });
 
   print(reflectionBuilder.generate(p));
 

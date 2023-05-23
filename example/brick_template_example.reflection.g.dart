@@ -25,11 +25,242 @@ mixin __ReflectionMixin {
 }
 
 // ignore: non_constant_identifier_names
+Friend Friend$fromJson(Map<String, Object?> map) =>
+    Friend$reflection.staticInstance.fromJson(map);
+// ignore: non_constant_identifier_names
+Friend Friend$fromJsonEncoded(String jsonEncoded) =>
+    Friend$reflection.staticInstance.fromJsonEncoded(jsonEncoded);
+// ignore: non_constant_identifier_names
 Person Person$fromJson(Map<String, Object?> map) =>
     Person$reflection.staticInstance.fromJson(map);
 // ignore: non_constant_identifier_names
 Person Person$fromJsonEncoded(String jsonEncoded) =>
     Person$reflection.staticInstance.fromJsonEncoded(jsonEncoded);
+
+class Friend$reflection extends ClassReflection<Friend> with __ReflectionMixin {
+  static final Expando<Friend$reflection> _objectReflections = Expando();
+
+  factory Friend$reflection([Friend? object]) {
+    if (object == null) return staticInstance;
+    return _objectReflections[object] ??= Friend$reflection._(object);
+  }
+
+  Friend$reflection._([Friend? object]) : super(Friend, 'Friend', object);
+
+  static bool _registered = false;
+  @override
+  void register() {
+    if (!_registered) {
+      _registered = true;
+      super.register();
+      _registerSiblingsReflection();
+    }
+  }
+
+  @override
+  Version get languageVersion => Version.parse('3.0.0');
+
+  @override
+  Friend$reflection withObject([Friend? obj]) =>
+      Friend$reflection(obj)..setupInternalsWith(this);
+
+  static Friend$reflection? _withoutObjectInstance;
+  @override
+  Friend$reflection withoutObjectInstance() => staticInstance;
+
+  static Friend$reflection get staticInstance =>
+      _withoutObjectInstance ??= Friend$reflection._();
+
+  @override
+  Friend$reflection getStaticInstance() => staticInstance;
+
+  static bool _boot = false;
+  static void boot() {
+    if (_boot) return;
+    _boot = true;
+    Friend$reflection.staticInstance;
+  }
+
+  @override
+  bool get hasDefaultConstructor => false;
+  @override
+  Friend? createInstanceWithDefaultConstructor() => null;
+
+  @override
+  bool get hasEmptyConstructor => false;
+  @override
+  Friend? createInstanceWithEmptyConstructor() => null;
+  @override
+  bool get hasNoRequiredArgsConstructor => false;
+  @override
+  Friend? createInstanceWithNoRequiredArgsConstructor() => null;
+
+  static const List<String> _constructorsNames = const <String>[''];
+
+  @override
+  List<String> get constructorsNames => _constructorsNames;
+
+  static final Map<String, ConstructorReflection<Friend>> _constructors =
+      <String, ConstructorReflection<Friend>>{};
+
+  @override
+  ConstructorReflection<Friend>? constructor(String constructorName) {
+    var c = _constructors[constructorName];
+    if (c != null) return c;
+    c = _constructorImpl(constructorName);
+    if (c == null) return null;
+    _constructors[constructorName] = c;
+    return c;
+  }
+
+  ConstructorReflection<Friend>? _constructorImpl(String constructorName) {
+    var lc = constructorName.trim().toLowerCase();
+
+    switch (lc) {
+      case '':
+        return ConstructorReflection<Friend>(
+            this,
+            Friend,
+            '',
+            () => ({required String name, required int age}) =>
+                Friend(name: name, age: age),
+            null,
+            null,
+            const <String, __PR>{
+              'age': __PR(__TR.tInt, 'age', false, true),
+              'name': __PR(__TR.tString, 'name', false, true)
+            },
+            null);
+      default:
+        return null;
+    }
+  }
+
+  static const List<Object> _classAnnotations = <Object>[];
+
+  @override
+  List<Object> get classAnnotations => _classAnnotations;
+
+  static const List<Type> _supperTypes = const <Type>[];
+
+  @override
+  List<Type> get supperTypes => _supperTypes;
+
+  @override
+  bool get hasMethodToJson => false;
+
+  @override
+  Object? callMethodToJson([Friend? obj]) => null;
+
+  static const List<String> _fieldsNames = const <String>['age', 'name'];
+
+  @override
+  List<String> get fieldsNames => _fieldsNames;
+
+  static final Map<String, FieldReflection<Friend, dynamic>> _fieldsNoObject =
+      <String, FieldReflection<Friend, dynamic>>{};
+
+  final Map<String, FieldReflection<Friend, dynamic>> _fieldsObject =
+      <String, FieldReflection<Friend, dynamic>>{};
+
+  @override
+  FieldReflection<Friend, T>? field<T>(String fieldName, [Friend? obj]) {
+    if (obj == null) {
+      if (object != null) {
+        return _fieldObjectImpl<T>(fieldName);
+      } else {
+        return _fieldNoObjectImpl<T>(fieldName);
+      }
+    } else if (identical(obj, object)) {
+      return _fieldObjectImpl<T>(fieldName);
+    }
+    return _fieldNoObjectImpl<T>(fieldName)?.withObject(obj);
+  }
+
+  FieldReflection<Friend, T>? _fieldNoObjectImpl<T>(String fieldName) {
+    final f = _fieldsNoObject[fieldName];
+    if (f != null) {
+      return f as FieldReflection<Friend, T>;
+    }
+    final f2 = _fieldImpl(fieldName, null);
+    if (f2 == null) return null;
+    _fieldsNoObject[fieldName] = f2;
+    return f2 as FieldReflection<Friend, T>;
+  }
+
+  FieldReflection<Friend, T>? _fieldObjectImpl<T>(String fieldName) {
+    final f = _fieldsObject[fieldName];
+    if (f != null) {
+      return f as FieldReflection<Friend, T>;
+    }
+    var f2 = _fieldNoObjectImpl<T>(fieldName);
+    if (f2 == null) return null;
+    f2 = f2.withObject(object!);
+    _fieldsObject[fieldName] = f2;
+    return f2;
+  }
+
+  FieldReflection<Friend, dynamic>? _fieldImpl(String fieldName, Friend? obj) {
+    obj ??= object;
+
+    var lc = fieldName.trim().toLowerCase();
+
+    switch (lc) {
+      case 'name':
+        return FieldReflection<Friend, String>(
+          this,
+          Friend,
+          __TR.tString,
+          'name',
+          false,
+          (o) => () => o!.name,
+          null,
+          obj,
+          false,
+          true,
+        );
+      case 'age':
+        return FieldReflection<Friend, int>(
+          this,
+          Friend,
+          __TR.tInt,
+          'age',
+          false,
+          (o) => () => o!.age,
+          null,
+          obj,
+          false,
+          true,
+        );
+      default:
+        return null;
+    }
+  }
+
+  static const List<String> _staticFieldsNames = const <String>[];
+
+  @override
+  List<String> get staticFieldsNames => _staticFieldsNames;
+
+  @override
+  FieldReflection<Friend, T>? staticField<T>(String fieldName) => null;
+
+  static const List<String> _methodsNames = const <String>[];
+
+  @override
+  List<String> get methodsNames => _methodsNames;
+
+  @override
+  MethodReflection<Friend, R>? method<R>(String methodName, [Friend? obj]) =>
+      null;
+  static const List<String> _staticMethodsNames = const <String>[];
+
+  @override
+  List<String> get staticMethodsNames => _staticMethodsNames;
+
+  @override
+  MethodReflection<Friend, R>? staticMethod<R>(String methodName) => null;
+}
 
 class Person$reflection extends ClassReflection<Person> with __ReflectionMixin {
   static final Expando<Person$reflection> _objectReflections = Expando();
@@ -364,6 +595,29 @@ class Person$reflection extends ClassReflection<Person> with __ReflectionMixin {
   MethodReflection<Person, R>? staticMethod<R>(String methodName) => null;
 }
 
+extension Friend$reflectionExtension on Friend {
+  /// Returns a [ClassReflection] for type [Friend]. (Generated by [ReflectionFactory])
+  ClassReflection<Friend> get reflection => Friend$reflection(this);
+
+  /// Returns a JSON for type [Friend]. (Generated by [ReflectionFactory])
+  Object? toJson({bool duplicatedEntitiesAsID = false}) =>
+      reflection.toJson(null, null, duplicatedEntitiesAsID);
+
+  /// Returns a JSON [Map] for type [Friend]. (Generated by [ReflectionFactory])
+  Map<String, dynamic>? toJsonMap({bool duplicatedEntitiesAsID = false}) =>
+      reflection.toJsonMap(duplicatedEntitiesAsID: duplicatedEntitiesAsID);
+
+  /// Returns an encoded JSON [String] for type [Friend]. (Generated by [ReflectionFactory])
+  String toJsonEncoded(
+          {bool pretty = false, bool duplicatedEntitiesAsID = false}) =>
+      reflection.toJsonEncoded(
+          pretty: pretty, duplicatedEntitiesAsID: duplicatedEntitiesAsID);
+
+  /// Returns a JSON for type [Friend] using the class fields. (Generated by [ReflectionFactory])
+  Object? toJsonFromFields({bool duplicatedEntitiesAsID = false}) => reflection
+      .toJsonFromFields(duplicatedEntitiesAsID: duplicatedEntitiesAsID);
+}
+
 extension Person$reflectionExtension on Person {
   /// Returns a [ClassReflection] for type [Person]. (Generated by [ReflectionFactory])
   ClassReflection<Person> get reflection => Person$reflection(this);
@@ -389,6 +643,7 @@ extension Person$reflectionExtension on Person {
 
 List<Reflection> _listSiblingsReflection() => <Reflection>[
       Person$reflection(),
+      Friend$reflection(),
     ];
 
 List<Reflection>? _siblingsReflectionList;

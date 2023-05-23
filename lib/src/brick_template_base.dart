@@ -5,7 +5,7 @@ abstract class Template<T> {
   /// If the variable is not found, throws [FormatException]
   dynamic getVariable(T dataSource, String variableName);
 
-  Brick _generateBrickTree(T dataSource, TemplateBuilder<T> builder) {
+  Brick _generateBrickTree(T dataSource, TemplateBuilder builder) {
     // Root brick
     _BaseBrick root = _BaseBrick(content: template);
 
@@ -73,7 +73,7 @@ abstract class Template<T> {
       final brick = candidates[i];
 
       // If brick starts inside parent, brick is a valid candidate
-      if (brick.startingIndex > parent.startingIndex && brick.startingIndex < parent.startingIndex + parent.extent) {
+      if (brick.startingIndex >= parent.startingIndex && brick.startingIndex < parent.startingIndex + parent.extent) {
         // If bricks intersects parent, raise exception
         if (brick.startingIndex + brick.extent > parent.startingIndex + parent.extent) {
           throw Exception("Bricks intersects"); // TODO ad hoc exception
@@ -99,13 +99,13 @@ abstract class Template<T> {
 
 class TemplateBuilder<T> {
   final Template<T> mainTemplate;
-  final Set<Template> childrenTemplates;
+  final Map<Type, Template> childrenTemplates;
 
   TemplateBuilder({required this.mainTemplate, this.childrenTemplates = const {}});
 
-  Template? teplateFor<E>() {
+  Template? _teplateFor(Type type) {
     try {
-      return childrenTemplates.firstWhere((element) => element is Template<E>);
+      return childrenTemplates[type];
     } catch (_) {
       return null;
     }
@@ -187,6 +187,8 @@ class _VariableBrick implements Brick {
 
   @override
   String toText() {
+    final template = builder._teplateFor(variable.runtimeType);
+    if (template != null) return template._generateBrickTree(variable, builder).toText();
     return variable?.toString() ?? '';
   }
 }
