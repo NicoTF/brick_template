@@ -214,7 +214,7 @@ class _DependencyBrick extends _BaseBrick {
 
   @override
   String toText() {
-    if (variable != null) {
+    if (variable != null && (variable is! Iterable || (variable as Iterable).isNotEmpty)) {
       final start = RegExp(r'}[\s\n]*').firstMatch(content)!.end;
       final endOffset = content.length - RegExp(r'[\s\n]*{\?}').allMatches(content).last.start;
 

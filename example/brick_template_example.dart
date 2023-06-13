@@ -39,11 +39,8 @@ class Friend {
 void main() {
   ReflectionFactory().registerClassReflection<Person>(Person$reflection.staticInstance);
 
-  final p = Person(
-    name: 'Nico',
-    age: 30,
-  );
-  final p2 = Person(name: 'Luca', age: 40, address: '123 Main St', friends: [Friend(name: 'Luigi', age: 21), Friend(name: 'Mario', age: 34)]);
+  final nico = Person(name: 'Nico', age: 30, friends: []);
+  final luca = Person(name: 'Luca', age: 40, address: '123 Main St', friends: [Friend(name: 'Luigi', age: 21), Friend(name: 'Mario', age: 34)]);
 
   final builder = TemplateBuilder(
     mainTemplate: MapTemplate(
@@ -54,9 +51,9 @@ Hello {\$name}! You are {\$ age} years old.
     ),
   );
 
-  print(builder.generate(p.toMap()));
+  print(builder.generate(nico.toMap()));
 
-  print(builder.generate(p2.toMap()));
+  print(builder.generate(luca.toMap()));
 
   final reflectionBuilder = TemplateBuilder(
       mainTemplate: ReflectionTemplate<Person>(
@@ -80,7 +77,7 @@ Your friends are:
         ),
       });
 
-  print(reflectionBuilder.generate(p));
+  print(reflectionBuilder.generate(nico));
 
-  print(reflectionBuilder.generate(p2));
+  print(reflectionBuilder.generate(luca));
 }
